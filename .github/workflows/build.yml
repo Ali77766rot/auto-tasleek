@@ -1,5 +1,4 @@
 name: Android APK Build from ZIP
-
 on:
   push:
     branches: [ "main" ]
@@ -23,11 +22,15 @@ jobs:
           distribution: 'temurin'
           java-version: '17'
 
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v3
+        with:
+          gradle-version: 7.5.1
+
       - name: Generate Gradle Wrapper 7.5.1
         run: |
           gradle wrapper --gradle-version 7.5.1
-          # نقل ملفات الـ wrapper الناتجة إلى داخل مجلد المشروع
-          cp -r gradlew gradlew.bat gradle AutoTasleek/
+          cp -r gradlew gradlew.bat gradle AutoTasleek
           chmod +x AutoTasleek/gradlew
 
       - name: Build Debug APK
