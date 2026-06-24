@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">AutoTasleek</string>
+    <string name="accessibility_service_description">AutoTasleek Accessibility Service for text automation.</string>
+</resources>
