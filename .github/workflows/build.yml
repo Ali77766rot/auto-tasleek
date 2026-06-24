@@ -1,4 +1,5 @@
 name: Android APK Build from ZIP
+
 on:
   push:
     branches: [ "main" ]
@@ -22,20 +23,19 @@ jobs:
           distribution: 'temurin'
           java-version: '17'
 
-      - name: Setup Gradle
-        uses: gradle/actions/setup-gradle@v3
-        with:
-          gradle-version: 7.5.1
-
       - name: Generate Gradle Wrapper 7.5.1
         run: |
+          # استخدام نسخة gradle المثبتة مسبقاً في ubuntu-latest لتوليد الـ wrapper
           gradle wrapper --gradle-version 7.5.1
-          cp -r gradlew gradlew.bat gradle AutoTasleek
+          # نقل الملفات
+          cp -r gradlew gradlew.bat gradle AutoTasleek/
           chmod +x AutoTasleek/gradlew
 
       - name: Build Debug APK
         run: |
           cd AutoTasleek
+          # التأكد من أن الملفات موجودة وقابلة للتنفيذ
+          ls -R gradle
           ./gradlew assembleDebug
 
       - name: Upload Generated APK
