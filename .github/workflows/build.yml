@@ -1,8 +1,7 @@
-name: Build Android APK from ZIP
-
+name: Android APK Build from ZIP
 on:
   push:
-    branches: [ "main", "master" ]
+    branches: [ "main" ]
   workflow_dispatch:
 
 jobs:
@@ -10,25 +9,28 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout Code
-      uses: actions/checkout@v4
+      - name: Checkout Repository
+        uses: actions/checkout@v4
 
-    - name: Unzip Project Files
-      run: |
-        unzip -o AutoTasleek.zip
-        chmod +x gradlew
+      - name: Unzip Project Files
+        run: |
+          unzip AutoTasleek.zip
+          cd AutoTasleek
+          chmod +x gradlew
 
-    - name: Set up JDK 17
-      uses: actions/setup-java@v4
-      with:
-        distribution: 'temurin'
-        java-version: '17'
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '17'
 
-    - name: Build Debug APK
-      run: ./gradlew assembleDebug
+      - name: Build Debug APK
+        run: |
+          cd AutoTasleek
+          ./gradlew assembleDebug
 
-    - name: Upload Generated APK
-      uses: actions/upload-artifact@v4
-      with:
-        name: Auto-Tasleek-App
-        path: app/build/outputs/apk/debug/*.apk
+      - name: Upload Generated APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: Auto-Tasleek
+          path: AutoTasleek/app/build/outputs/apk/debug/*.apk
